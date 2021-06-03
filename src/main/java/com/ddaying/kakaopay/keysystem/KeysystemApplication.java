@@ -1,0 +1,13 @@
+package com.ddaying.kakaopay.keysystem;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class KeysystemApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(KeysystemApplication.class, args);
+    }
+
+}
