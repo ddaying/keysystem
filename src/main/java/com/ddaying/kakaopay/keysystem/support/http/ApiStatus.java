@@ -12,6 +12,9 @@ public enum ApiStatus implements ApiStatusResponsible {
 
     INVALID_SYSTEM_TYPE(-1000, "정의 되지 않은 타입입니다."),
     ALREADY_REGISTERED_KEY(-1001, "이미 등록된 키 입니다."),
+    INVALID_KEY(-1002, "등록되지 않은 키 입니다."),
+    DELETED_KEY(-1003, "삭제된 키 입니다."),
+    INVALID_SYSTEM_GENERATOR(-1004, "정의 되지 않은 generator 입니다."),
     ;
 
     private Integer code;

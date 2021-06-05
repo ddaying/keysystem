@@ -4,10 +4,7 @@ import com.ddaying.kakaopay.keysystem.domain.key.view.KeyRegisterRequest;
 import com.ddaying.kakaopay.keysystem.support.http.ApiResult;
 import com.ddaying.kakaopay.keysystem.support.http.ApiStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("/api/key")
@@ -25,6 +22,13 @@ public class KeyController {
         keyFacade.register(request);
 
         return ApiResult.of(ApiStatus.SUCCESS);
+    }
+
+    // 각 Key 별로 새로운 키 발급
+    @GetMapping("/{key}")
+    public ApiResult generator(@PathVariable String key) {
+
+        return ApiResult.of(ApiStatus.SUCCESS, keyFacade.generator(key));
     }
 
 }

@@ -49,7 +49,17 @@ public class System  extends BaseEntity {
     private List<Key> keys = Lists.newArrayList();
 
 
+    public void addKey(Key key) {
+        this.keys.add(key);
+        key.setSystem(this);
+    }
+
     public void toShow() {
         this.displayStatus = DisplayStatus.SHOW;
     }
+
+    public boolean isDeleted() {
+        return this.displayStatus.isDelete();
+    }
+
 }

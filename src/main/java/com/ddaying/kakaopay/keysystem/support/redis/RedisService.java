@@ -22,6 +22,10 @@ public class RedisService {
     private ValueOperations<String, Object> stringRedisTemplate;
 
 
+    public void set (String key, Object value) {
+        stringRedisTemplate.set(key, JsonHelper.toJson(value));
+    }
+
     public <T> T get(String key, Type deserializeType) {
         Object value = stringRedisTemplate.get(key);
         if (Objects.isNull(value)) {

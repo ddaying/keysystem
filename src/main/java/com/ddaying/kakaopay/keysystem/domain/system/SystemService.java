@@ -40,4 +40,8 @@ public class SystemService {
         }
     }
 
+    public System getByName(String name) {
+        return systemRepository.findByName(name).orElseThrow(() -> new ApiException(ApiStatus.INVALID_KEY));
+    }
+
 }

@@ -31,4 +31,8 @@ public class Key  extends BaseEntity {
     @Column
     private DisplayStatus displayStatus;
 
+    public void toShow() {
+        this.displayStatus = DisplayStatus.SHOW;
+    }
+
 }
