@@ -27,6 +27,16 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // mysql
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    // library
+    implementation "com.google.guava:guava:26.0-jre"
+
+    // h2 - test
+    runtimeOnly 'com.h2database:h2'
+    testCompile 'com.h2database:h2'
 }
 
 test {
