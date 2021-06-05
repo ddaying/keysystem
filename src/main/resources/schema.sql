@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS insurance.key_channel (
  `type` varchar(10) NOT NULL COMMENT '타입',
  `generator` varchar(20) DEFAULT NULL COMMENT '생성 주최',
  `length` int(11) DEFAULT NULL COMMENT '기본 자릿수',
+ `value` bigint(20) DEFAULT NULL COMMENT '최근 생성 값',
  `display_status` varchar(10) DEFAULT NULL COMMENT '삭제여부',
  `create_by` varchar(20) DEFAULT NULL COMMENT '작성자',
  `create_time` datetime DEFAULT NULL COMMENT '작성시간',

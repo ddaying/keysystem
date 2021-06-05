@@ -3,6 +3,7 @@ package com.ddaying.kakaopay.keysystem.domain.keychannel;
 import com.ddaying.kakaopay.keysystem.domain.SystemType;
 import com.ddaying.kakaopay.keysystem.support.http.ApiException;
 import com.ddaying.kakaopay.keysystem.support.http.ApiStatus;
+import com.ddaying.kakaopay.keysystem.util.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.lang.Nullable;
@@ -30,6 +31,7 @@ public class KeyChannelService {
         if (type.isNumber()) {
             keyChannel.setGenerator(generator);
             keyChannel.setLength(length);
+            keyChannel.setValue(NumberUtils.generator(length.intValue()));
         }
         keyChannel.toShow();
 

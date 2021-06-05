@@ -1,10 +1,10 @@
 package com.ddaying.kakaopay.keysystem.domain.keydata;
 
 import com.ddaying.kakaopay.keysystem.domain.SystemType;
-import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyChannelRegisterRequest;
-import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyDataView;
 import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannel;
 import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannelService;
+import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyChannelRegisterRequest;
+import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyDataView;
 import com.ddaying.kakaopay.keysystem.support.http.ApiException;
 import com.ddaying.kakaopay.keysystem.support.http.ApiStatus;
 import com.ddaying.kakaopay.keysystem.support.redis.RedisService;
@@ -60,6 +60,9 @@ public class KeyDataFacade {
         // 2) 키 타입에 따라 고유 키 생성
         if (keyChannel.getType().isNumber()) {
             value = this.createNumber(keyChannel);
+
+            // 최근 생성된 키 업데이트
+            keyChannel.setValue(Long.parseLong(value));
         } else {
             // TODO String 정의 필요
         }

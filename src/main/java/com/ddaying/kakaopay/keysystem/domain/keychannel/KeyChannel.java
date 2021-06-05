@@ -39,6 +39,9 @@ public class KeyChannel extends BaseEntity {
     @Column
     private Integer length;
 
+    @Column
+    private Long value;
+
     @Enumerated(value = EnumType.STRING)
     @Column
     private DisplayStatus displayStatus;
