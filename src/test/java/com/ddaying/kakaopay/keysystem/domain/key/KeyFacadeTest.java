@@ -1,5 +1,6 @@
 package com.ddaying.kakaopay.keysystem.domain.key;
 
+import com.ddaying.kakaopay.keysystem.config.KeySystemComponentTest;
 import com.ddaying.kakaopay.keysystem.config.RepositoryTestConfig;
 import com.ddaying.kakaopay.keysystem.domain.SystemType;
 import com.ddaying.kakaopay.keysystem.domain.key.view.KeyRegisterRequest;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("memory")
+@KeySystemComponentTest
 @ContextConfiguration(classes = {RepositoryTestConfig.class})
 @Transactional
 @SpringBootTest

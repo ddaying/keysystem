@@ -10,3 +10,6 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
+  redis:
+    host: localhost
+    port: 6379

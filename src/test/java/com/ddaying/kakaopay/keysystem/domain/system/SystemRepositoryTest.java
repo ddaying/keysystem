@@ -1,6 +1,7 @@
 package com.ddaying.kakaopay.keysystem.domain.system;
 
 
+import com.ddaying.kakaopay.keysystem.config.KeySystemComponentTest;
 import com.ddaying.kakaopay.keysystem.config.RepositoryTestConfig;
 import com.ddaying.kakaopay.keysystem.domain.SystemType;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("memory")
+@KeySystemComponentTest
 @ContextConfiguration(classes = {RepositoryTestConfig.class})
 @Transactional
 @SpringBootTest

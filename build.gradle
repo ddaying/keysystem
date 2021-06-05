@@ -21,6 +21,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -41,6 +42,9 @@ dependencies {
 
     // test
     testImplementation group: 'junit', name: 'junit', version: '4.13.1'
+
+    // embedded-redis
+    implementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.1'
 }
 
 test {
