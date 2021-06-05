@@ -11,8 +11,8 @@ public class UtilsTest {
 
     @Test
     public void n자리_숫자_생성_테스트() {
-        assertThat(NumberUtils.generator(3)).isEqualTo(100);
-        assertThat(NumberUtils.generator(7)).isEqualTo(1_000_000);
-        assertThat(NumberUtils.generator(10)).isEqualTo(1_000_000_000);
+        assertThat(KeyUtils.generator(3)).isEqualTo(100);
+        assertThat(KeyUtils.generator(7)).isEqualTo(1_000_000);
+        assertThat(KeyUtils.generator(10)).isEqualTo(1_000_000_000);
     }
 }

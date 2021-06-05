@@ -8,7 +8,7 @@ import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyDataView;
 import com.ddaying.kakaopay.keysystem.support.http.ApiException;
 import com.ddaying.kakaopay.keysystem.support.http.ApiStatus;
 import com.ddaying.kakaopay.keysystem.support.redis.RedisService;
-import com.ddaying.kakaopay.keysystem.util.NumberUtils;
+import com.ddaying.kakaopay.keysystem.util.KeyUtils;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,7 @@ public class KeyDataFacade {
             // 최근 생성된 키 업데이트
             keyChannel.setValue(Long.parseLong(value));
         } else {
-            // TODO String 정의 필요
+            value = KeyUtils.generator();
         }
 
         KeyData keyData = keyDataService.create(keyChannel, value);
@@ -82,11 +82,11 @@ public class KeyDataFacade {
         if (keyChannel.getGenerator().equals("redis")) {
             Long _value = redisService.get(keyChannel.getName(), Long.class);
             if (Objects.isNull(_value)) {
-                _value = NumberUtils.generator(keyChannel.getLength());
+                _value = KeyUtils.generator(keyChannel.getLength());
                 redisService.set(keyChannel.getName(), _value);
             } else if (String.valueOf(_value).length() < keyChannel.getLength()) {
                 log.info("기존에 생성된 value 값이 정의된 min-length 정책에 어긋나 새로 생성함");
-                _value = NumberUtils.generator(keyChannel.getLength());
+                _value = KeyUtils.generator(keyChannel.getLength());
             } else {
                 _value = redisService.increment(keyChannel.getName());
             }

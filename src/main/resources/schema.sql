@@ -27,6 +27,6 @@ CREATE TABLE IF NOT EXISTS insurance.key_data (
   `modify_by` varchar(20) DEFAULT NULL COMMENT '수정자',
   `modify_time` datetime DEFAULT NULL COMMENT '수정시간',
   PRIMARY KEY (`id`),
-  KEY `uk_value` (`channel_id`,`value`),
+  UNIQUE KEY `uk_channel_value` (`channel_id`,`value`),
   KEY `index_key_id` (`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='각 시스템 별 발급된 키';

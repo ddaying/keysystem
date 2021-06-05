@@ -27,5 +27,5 @@ CREATE TABLE IF NOT EXISTS insurance.key_data (
   `modify_by` varchar(20) DEFAULT NULL COMMENT '수정자',
   `modify_time` datetime DEFAULT NULL COMMENT '수정시간',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_value` (`channel_id`,`value`)
+  UNIQUE KEY `uk_channel_value` (`channel_id`,`value`)
 );

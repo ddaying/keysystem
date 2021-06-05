@@ -15,6 +15,8 @@ public enum ApiStatus implements ApiStatusResponsible {
     INVALID_KEY(-1002, "등록되지 않은 키 입니다."),
     DELETED_KEY(-1003, "삭제된 키 입니다."),
     INVALID_SYSTEM_GENERATOR(-1004, "정의 되지 않은 generator 입니다."),
+
+    ALREADY_GENERATED_KEY(-2000, "중복 키가 발생하였습니다. 다시 시도해 주세요."),
     ;
 
     private Integer code;
