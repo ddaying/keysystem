@@ -1,9 +1,9 @@
-package com.ddaying.kakaopay.keysystem.domain.key;
+package com.ddaying.kakaopay.keysystem.domain.keydata;
 
 import com.ddaying.kakaopay.keysystem.config.KeySystemComponentTest;
 import com.ddaying.kakaopay.keysystem.config.RepositoryTestConfig;
-import com.ddaying.kakaopay.keysystem.domain.system.System;
-import com.ddaying.kakaopay.keysystem.domain.system.SystemRepository;
+import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannel;
+import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannelRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,25 +20,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @SpringBootTest
 @Sql(scripts = {"classpath:init-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-public class KeyServiceTest {
+public class KeyDataServiceTest {
 
     @Autowired
-    private KeyService keyService;
+    private KeyDataService keyDataService;
 
     @Autowired
-    private SystemRepository systemRepository;
+    private KeyChannelRepository keyChannelRepository;
 
     @Test
     public void 키_저장_테스트() {
-        System system = systemRepository.getOne(1L);
-        assertThat(system.getKeys()).isEmpty();
+        KeyChannel keyChannel = keyChannelRepository.getOne(1L);
+        assertThat(keyChannel.getKeyData()).isEmpty();
 
         String value = "ABCDEFG";
-        Key key = keyService.create(system, value);
-        system.addKey(key);
+        KeyData keyData = keyDataService.create(keyChannel, value);
+        keyChannel.addKey(keyData);
 
-        assertThat(key.getValue()).isEqualTo(value);
-        assertThat(system.getKeys().size()).isEqualTo(1);
-        assertThat(system.getKeys().get(0).getValue()).isEqualTo(value);
+        assertThat(keyData.getValue()).isEqualTo(value);
+        assertThat(keyChannel.getKeyData().size()).isEqualTo(1);
+        assertThat(keyChannel.getKeyData().get(0).getValue()).isEqualTo(value);
     }
 }

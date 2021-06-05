@@ -1,4 +1,4 @@
-package com.ddaying.kakaopay.keysystem.domain.key.view;
+package com.ddaying.kakaopay.keysystem.domain.keydata.view;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Builder // 테스트 위해 builder 생성
 @Getter
-public class KeyRegisterRequest {
+public class KeyChannelRegisterRequest {
 
     // 키 명칭
     private String key;

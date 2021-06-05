@@ -1,11 +1,11 @@
-package com.ddaying.kakaopay.keysystem.domain.key.view;
+package com.ddaying.kakaopay.keysystem.domain.keydata.view;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class KeyView {
+public class KeyDataView {
 
     private String value;
 

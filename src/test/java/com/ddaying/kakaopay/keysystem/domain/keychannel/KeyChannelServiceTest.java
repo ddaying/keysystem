@@ -1,4 +1,4 @@
-package com.ddaying.kakaopay.keysystem.domain.system;
+package com.ddaying.kakaopay.keysystem.domain.keychannel;
 
 import com.ddaying.kakaopay.keysystem.config.KeySystemComponentTest;
 import com.ddaying.kakaopay.keysystem.config.RepositoryTestConfig;
@@ -22,21 +22,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @SpringBootTest
 @Sql(scripts = {"classpath:init-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-public class SystemServiceTest {
+public class KeyChannelServiceTest {
 
     @Autowired
-    private SystemService systemService;
+    private KeyChannelService keyChannelService;
 
 
     @Test
     public void 생성_테스트() {
-        System system = systemService.create("policy-number", "보험 증서 번호에 사용할 KEY 값으로 테이블 PK로 사용", SystemType.NUMBER, "mysql", 10);
-        assertThat(system.getId()).isNotNull();
+        KeyChannel keyChannel = keyChannelService.create("policy-number", "보험 증서 번호에 사용할 KEY 값으로 테이블 PK로 사용", SystemType.NUMBER, "mysql", 10);
+        assertThat(keyChannel.getId()).isNotNull();
     }
 
     @Test
     public void 중복_생성시_예외_테스트() {
-        ApiException apiException = Assert.assertThrows(ApiException.class, () -> systemService.create("claim-number", "고객센터에서 고개 문의 사항이 접수될 때 사용하는 KEY", SystemType.STRING));
+        ApiException apiException = Assert.assertThrows(ApiException.class, () -> keyChannelService.create("claim-number", "고객센터에서 고개 문의 사항이 접수될 때 사용하는 KEY", SystemType.STRING));
         assertThat(apiException.getMessage()).isEqualTo(ApiStatus.ALREADY_REGISTERED_KEY.getMessage());
     }
 

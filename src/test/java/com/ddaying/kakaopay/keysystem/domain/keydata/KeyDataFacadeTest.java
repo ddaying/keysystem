@@ -1,12 +1,12 @@
-package com.ddaying.kakaopay.keysystem.domain.key;
+package com.ddaying.kakaopay.keysystem.domain.keydata;
 
 import com.ddaying.kakaopay.keysystem.config.KeySystemComponentTest;
 import com.ddaying.kakaopay.keysystem.config.RepositoryTestConfig;
 import com.ddaying.kakaopay.keysystem.domain.SystemType;
-import com.ddaying.kakaopay.keysystem.domain.key.view.KeyRegisterRequest;
-import com.ddaying.kakaopay.keysystem.domain.key.view.KeyView;
-import com.ddaying.kakaopay.keysystem.domain.system.System;
-import com.ddaying.kakaopay.keysystem.domain.system.SystemRepository;
+import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannel;
+import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyChannelRegisterRequest;
+import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyDataView;
+import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannelRepository;
 import com.ddaying.kakaopay.keysystem.support.http.ApiException;
 import com.ddaying.kakaopay.keysystem.support.http.ApiStatus;
 import com.ddaying.kakaopay.keysystem.support.redis.RedisService;
@@ -29,13 +29,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @SpringBootTest
 @Sql(scripts = {"classpath:init-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-public class KeyFacadeTest {
+public class KeyDataFacadeTest {
 
     @Autowired
-    private KeyFacade keyFacade;
+    private KeyDataFacade keyDataFacade;
 
     @Autowired
-    private SystemRepository systemRepository;
+    private KeyChannelRepository keyChannelRepository;
 
     @Autowired
     private RedisService redisService;
@@ -43,7 +43,7 @@ public class KeyFacadeTest {
 
     @Test
     public void 키_시스템_등록() {
-        KeyRegisterRequest request = KeyRegisterRequest.builder()
+        KeyChannelRegisterRequest request = KeyChannelRegisterRequest.builder()
                 .key("policy-number")
                 .description("보험 증서 번호에 사용할 KEY 값으로 테이블 PK로 사용")
                 .type("number")
@@ -51,27 +51,27 @@ public class KeyFacadeTest {
                 .minLength(10)
                 .build();
 
-        keyFacade.register(request);
+        keyDataFacade.register(request);
 
-        Optional<System> optionalSystem = systemRepository.findByName(request.getKey());
+        Optional<KeyChannel> optionalSystem = keyChannelRepository.findByName(request.getKey());
         assertThat(optionalSystem.isPresent()).isEqualTo(true);
 
-        System system = optionalSystem.get();
-        assertThat(system.getDescription()).isEqualTo(request.getDescription());
-        assertThat(system.getType()).isEqualTo(SystemType.NUMBER);
-        assertThat(system.getGenerator()).isEqualTo(request.getGenerator());
-        assertThat(system.getLength()).isEqualTo(request.getMinLength());
+        KeyChannel keyChannel = optionalSystem.get();
+        assertThat(keyChannel.getDescription()).isEqualTo(request.getDescription());
+        assertThat(keyChannel.getType()).isEqualTo(SystemType.NUMBER);
+        assertThat(keyChannel.getGenerator()).isEqualTo(request.getGenerator());
+        assertThat(keyChannel.getLength()).isEqualTo(request.getMinLength());
     }
 
     @Test
     public void 키_시스템_등록_필수_파라미터_누락_체크() {
-        KeyRegisterRequest request = KeyRegisterRequest.builder()
+        KeyChannelRegisterRequest request = KeyChannelRegisterRequest.builder()
                 .key("policy-number")
                 .description("보험 증서 번호에 사용할 KEY 값으로 테이블 PK로 사용")
                 .type("number")
                 .build();
 
-        ApiException apiException = Assert.assertThrows(ApiException.class, () -> keyFacade.register(request));
+        ApiException apiException = Assert.assertThrows(ApiException.class, () -> keyDataFacade.register(request));
         assertThat(apiException.getMessage()).isEqualTo(ApiStatus.INVALID_REQUIRE_PARAMETER.getMessage());
     }
 
@@ -81,8 +81,8 @@ public class KeyFacadeTest {
         redisService.delete("custom-key");
 
         // 발급
-        KeyView keyView = keyFacade.generator("custom-key");
-        assertThat(keyView.getValue()).isEqualTo("1000000000");
+        KeyDataView keyDataView = keyDataFacade.generator("custom-key");
+        assertThat(keyDataView.getValue()).isEqualTo("1000000000");
     }
 
 }

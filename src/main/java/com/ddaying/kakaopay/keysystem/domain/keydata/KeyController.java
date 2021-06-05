@@ -1,6 +1,6 @@
-package com.ddaying.kakaopay.keysystem.domain.key;
+package com.ddaying.kakaopay.keysystem.domain.keydata;
 
-import com.ddaying.kakaopay.keysystem.domain.key.view.KeyRegisterRequest;
+import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyChannelRegisterRequest;
 import com.ddaying.kakaopay.keysystem.support.http.ApiResult;
 import com.ddaying.kakaopay.keysystem.support.http.ApiStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 public class KeyController {
 
     @Autowired
-    private KeyFacade keyFacade;
+    private KeyDataFacade keyDataFacade;
 
 
     // KEY 시스템에 정보 등록
     @PostMapping("/register")
-    public ApiResult register(@RequestBody KeyRegisterRequest request) {
+    public ApiResult register(@RequestBody KeyChannelRegisterRequest request) {
 
-        keyFacade.register(request);
+        keyDataFacade.register(request);
 
         return ApiResult.of(ApiStatus.SUCCESS);
     }
@@ -28,7 +28,7 @@ public class KeyController {
     @GetMapping("/{key}")
     public ApiResult generator(@PathVariable String key) {
 
-        return ApiResult.of(ApiStatus.SUCCESS, keyFacade.generator(key));
+        return ApiResult.of(ApiStatus.SUCCESS, keyDataFacade.generator(key));
     }
 
 }

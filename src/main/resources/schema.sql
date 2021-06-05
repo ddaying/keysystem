@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS `insurance` DEFAULT CHARACTER SET = `utf8mb4`;
 
-CREATE TABLE IF NOT EXISTS insurance.system (
+CREATE TABLE IF NOT EXISTS insurance.key_channel (
  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '구분',
  `description` text NOT NULL COMMENT '설명',
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS insurance.system (
  UNIQUE KEY `uk_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Key 정보';
 
-CREATE TABLE IF NOT EXISTS insurance.key (
+CREATE TABLE IF NOT EXISTS insurance.key_data (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `system_id` bigint(20) DEFAULT NULL COMMENT 'system Id',
+  `channel_id` bigint(20) DEFAULT NULL COMMENT 'key channel Id',
   `value` varchar(40) DEFAULT NULL COMMENT '생성된 키 값',
   `display_status` varchar(10) DEFAULT NULL COMMENT '삭제 여부',
   `create_by` varchar(20) DEFAULT NULL COMMENT '작성자',
@@ -26,6 +26,6 @@ CREATE TABLE IF NOT EXISTS insurance.key (
   `modify_by` varchar(20) DEFAULT NULL COMMENT '수정자',
   `modify_time` datetime DEFAULT NULL COMMENT '수정시간',
   PRIMARY KEY (`id`),
-  KEY `uk_value` (`system_id`,`value`),
-  KEY `index_key_id` (`system_id`)
+  KEY `uk_value` (`channel_id`,`value`),
+  KEY `index_key_id` (`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='각 시스템 별 발급된 키';

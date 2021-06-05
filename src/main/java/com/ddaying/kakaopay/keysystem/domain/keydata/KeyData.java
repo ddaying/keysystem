@@ -1,8 +1,8 @@
-package com.ddaying.kakaopay.keysystem.domain.key;
+package com.ddaying.kakaopay.keysystem.domain.keydata;
 
 import com.ddaying.kakaopay.keysystem.domain.BaseEntity;
 import com.ddaying.kakaopay.keysystem.domain.DisplayStatus;
-import com.ddaying.kakaopay.keysystem.domain.system.System;
+import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "key", schema = "insurance")
-public class Key  extends BaseEntity {
+@Table(name = "key_data", schema = "insurance")
+public class KeyData extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +21,8 @@ public class Key  extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "system_id", referencedColumnName = "id")
-    private System system;
+    @JoinColumn(name = "channel_id", referencedColumnName = "id")
+    private KeyChannel keyChannel;
 
     @Column
     private String value;

@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS insurance;
 
-CREATE TABLE IF NOT EXISTS insurance.system (
+CREATE TABLE IF NOT EXISTS insurance.key_channel (
  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '구분',
  `description` text NOT NULL COMMENT '설명',
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS insurance.system (
   UNIQUE KEY `uk_name` (`name`)
 );
 
-CREATE TABLE IF NOT EXISTS insurance.key (
+CREATE TABLE IF NOT EXISTS insurance.key_data (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `system_id` bigint(20) DEFAULT NULL COMMENT 'system Id',
+  `channel_id` bigint(20) DEFAULT NULL COMMENT 'key channel Id',
   `value` varchar(40) DEFAULT NULL COMMENT '생성된 키 값',
   `display_status` varchar(10) DEFAULT NULL COMMENT '삭제 여부',
   `create_by` varchar(20) DEFAULT NULL COMMENT '작성자',
@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS insurance.key (
   `modify_by` varchar(20) DEFAULT NULL COMMENT '수정자',
   `modify_time` datetime DEFAULT NULL COMMENT '수정시간',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_value` (`system_id`,`value`)
+  UNIQUE KEY `uk_value` (`channel_id`,`value`)
 );

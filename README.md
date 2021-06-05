@@ -10,8 +10,8 @@
 - [X] 2) claim-number (string)
 
 #### 3. Key 발급 API
-- [] 1) GET /api/key/policy-number
-- [] 2) GET /api/key/claim-number
+- [] 1) GET /api/keyData/policy-number
+- [] 2) GET /api/keyData/claim-number
 
 ---
 

@@ -1,10 +1,10 @@
-package com.ddaying.kakaopay.keysystem.domain.key;
+package com.ddaying.kakaopay.keysystem.domain.keydata;
 
 import com.ddaying.kakaopay.keysystem.domain.SystemType;
-import com.ddaying.kakaopay.keysystem.domain.key.view.KeyRegisterRequest;
-import com.ddaying.kakaopay.keysystem.domain.key.view.KeyView;
-import com.ddaying.kakaopay.keysystem.domain.system.System;
-import com.ddaying.kakaopay.keysystem.domain.system.SystemService;
+import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyChannelRegisterRequest;
+import com.ddaying.kakaopay.keysystem.domain.keydata.view.KeyDataView;
+import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannel;
+import com.ddaying.kakaopay.keysystem.domain.keychannel.KeyChannelService;
 import com.ddaying.kakaopay.keysystem.support.http.ApiException;
 import com.ddaying.kakaopay.keysystem.support.http.ApiStatus;
 import com.ddaying.kakaopay.keysystem.support.redis.RedisService;
@@ -20,27 +20,27 @@ import java.util.Objects;
 @Slf4j
 @Transactional
 @Component
-public class KeyFacade {
+public class KeyDataFacade {
 
     @Autowired
-    private SystemService systemService;
+    private KeyChannelService keyChannelService;
 
     @Autowired
-    private KeyService keyService;
+    private KeyDataService keyDataService;
 
     @Autowired
     public RedisService redisService;
 
 
-    public void register(KeyRegisterRequest request) {
+    public void register(KeyChannelRegisterRequest request) {
 
         SystemType type = SystemType.from(request.getType());
         this.validate(type, request);
 
-        systemService.create(request.getKey(), request.getDescription(), type, request.getGenerator(), request.getMinLength());
+        keyChannelService.create(request.getKey(), request.getDescription(), type, request.getGenerator(), request.getMinLength());
     }
 
-    private void validate(SystemType type, KeyRegisterRequest request) {
+    private void validate(SystemType type, KeyChannelRegisterRequest request) {
         if (type.isNumber()) {
             if (Strings.isNullOrEmpty(request.getGenerator()) || Objects.isNull(request.getMinLength())) {
                 throw new ApiException(ApiStatus.INVALID_REQUIRE_PARAMETER);
@@ -48,44 +48,44 @@ public class KeyFacade {
         }
     }
 
-    public KeyView generator(String keyName) {
+    public KeyDataView generator(String keyName) {
         String value = "";
 
         // 1) 키 등록 여부 확인
-        System system = systemService.getByName(keyName);
-        if (system.isDeleted()) {
+        KeyChannel keyChannel = keyChannelService.getByName(keyName);
+        if (keyChannel.isDeleted()) {
             throw new ApiException(ApiStatus.DELETED_KEY);
         }
 
         // 2) 키 타입에 따라 고유 키 생성
-        if (system.getType().isNumber()) {
-            value = this.createNumber(system);
+        if (keyChannel.getType().isNumber()) {
+            value = this.createNumber(keyChannel);
         } else {
             // TODO String 정의 필요
         }
 
-        Key key = keyService.create(system, value);
-        system.addKey(key);
+        KeyData keyData = keyDataService.create(keyChannel, value);
+        keyChannel.addKey(keyData);
 
-        return KeyView.builder()
+        return KeyDataView.builder()
                 .value(value)
                 .build();
     }
 
     // 시스템별 고유 키 생성
-    private String createNumber(System system) {
+    private String createNumber(KeyChannel keyChannel) {
         String value;
 
-        if (system.getGenerator().equals("redis")) {
-            Long _value = redisService.get(system.getName(), Long.class);
+        if (keyChannel.getGenerator().equals("redis")) {
+            Long _value = redisService.get(keyChannel.getName(), Long.class);
             if (Objects.isNull(_value)) {
-                _value = NumberUtils.generator(system.getLength());
-                redisService.set(system.getName(), _value);
-            } else if (String.valueOf(_value).length() < system.getLength()) {
+                _value = NumberUtils.generator(keyChannel.getLength());
+                redisService.set(keyChannel.getName(), _value);
+            } else if (String.valueOf(_value).length() < keyChannel.getLength()) {
                 log.info("기존에 생성된 value 값이 정의된 min-length 정책에 어긋나 새로 생성함");
-                _value = NumberUtils.generator(system.getLength());
+                _value = NumberUtils.generator(keyChannel.getLength());
             } else {
-                _value = redisService.increment(system.getName());
+                _value = redisService.increment(keyChannel.getName());
             }
             value = String.valueOf(_value);
         } else {

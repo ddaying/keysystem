@@ -1,9 +1,9 @@
-package com.ddaying.kakaopay.keysystem.domain.system;
+package com.ddaying.kakaopay.keysystem.domain.keychannel;
 
 import com.ddaying.kakaopay.keysystem.domain.BaseEntity;
 import com.ddaying.kakaopay.keysystem.domain.DisplayStatus;
 import com.ddaying.kakaopay.keysystem.domain.SystemType;
-import com.ddaying.kakaopay.keysystem.domain.key.Key;
+import com.ddaying.kakaopay.keysystem.domain.keydata.KeyData;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "system", schema = "insurance")
-public class System  extends BaseEntity {
+@Table(name = "key_channel", schema = "insurance")
+public class KeyChannel extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,13 +45,13 @@ public class System  extends BaseEntity {
 
 
     @OrderBy(value = "id desc")
-    @OneToMany(mappedBy = "system", cascade = CascadeType.ALL)
-    private List<Key> keys = Lists.newArrayList();
+    @OneToMany(mappedBy = "keyChannel", cascade = CascadeType.ALL)
+    private List<KeyData> keyData = Lists.newArrayList();
 
 
-    public void addKey(Key key) {
-        this.keys.add(key);
-        key.setSystem(this);
+    public void addKey(KeyData keyData) {
+        this.keyData.add(keyData);
+        keyData.setKeyChannel(this);
     }
 
     public void toShow() {
