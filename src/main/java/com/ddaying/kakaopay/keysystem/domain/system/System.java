@@ -48,4 +48,8 @@ public class System  extends BaseEntity {
     @OneToMany(mappedBy = "system", cascade = CascadeType.ALL)
     private List<Key> keys = Lists.newArrayList();
 
+
+    public void toShow() {
+        this.displayStatus = DisplayStatus.SHOW;
+    }
 }
