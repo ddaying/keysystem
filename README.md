@@ -1,3 +1,11 @@
+## Environment
+- Spring Boot 2.3.11 RELEASE
+- Spring Data JPA
+- Mysql 5.7
+- Redis (embedded)
+
+---
+
 ## DEMO
 
 - Run (port - 8080)
@@ -93,3 +101,7 @@ $ curl -X GET 'http://localhost:8080/api/key/claim-number'
 ## 개선 사항
 - 최초 redis connection 시 약 5s 의 지연 시간이 발생
   - embedded redis 관련 이슈인지는 별도 확인 필요
+
+- mysql 의존성 관련
+  - 현재 local mysql 이 설치되어있다는 가정 하에 정상 동작이 가능합니다. 최종 docker-compose 를 활용하여 mysql 을 띄운 후 데모를 실행할 수 있도록 해보려 했으나, Host 이슈로 진행하지 못하였습니다.
+  - 관련 branch 는 `keysystem-docker` 로 올려두겠습니다.
