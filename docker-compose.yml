@@ -1,0 +1,25 @@
+version: "3.0"
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: hoon
+      MYSQL_PASSWORD: 58998972
+      MYSQL_DATABASE: insurance
+      MYSQL_ROOT_PASSWORD: "58998972"
+    ports:
+      - 127.0.0.1:3306:3306
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  spring-boot:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+#    restart: on-failure
+#    links:
+#      - db
+    depends_on:
+      - db
