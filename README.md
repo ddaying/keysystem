@@ -21,6 +21,10 @@
 
 ## 메모 사항
 - number 타입의 증서번호를 redis 로 처리 하기 위해 embedded 형태로 설정함
-  -> 실제 개발/운영 레벨에서는 별도 RedisConfig 를 생성하여 remote redis 를 바라보도록 한다.
+  > 실제 개발/운영 레벨에서는 별도 RedisConfig 를 생성하여 remote redis 를 바라보도록 한다.
 
 ---
+
+## 개선 사항
+- 최초 redis connection 시 약 5s 의 지연 시간이 발생
+  > embedded redis 관련 이슈인지는 별도 확인 필요

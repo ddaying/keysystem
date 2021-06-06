@@ -49,26 +49,14 @@ public class KeyDataFacade {
     }
 
     public KeyDataView generator(String keyName) {
-        String value = "";
-
         // 1) 키 등록 여부 확인
         KeyChannel keyChannel = keyChannelService.getByName(keyName);
         if (keyChannel.isDeleted()) {
             throw new ApiException(ApiStatus.DELETED_KEY);
         }
 
-        // 2) 키 타입에 따라 고유 키 생성
-        if (keyChannel.getType().isNumber()) {
-            value = this.createNumber(keyChannel);
-
-            // 최근 생성된 키 업데이트
-            keyChannel.setValue(Long.parseLong(value));
-        } else {
-            value = KeyUtils.generator();
-        }
-
-        KeyData keyData = keyDataService.create(keyChannel, value);
-        keyChannel.addKey(keyData);
+        // 중복 생성 감안하여 최대 3번 재시도 하도록
+        String value = this.createKey(keyChannel, 3);
 
         return KeyDataView.builder()
                 .value(value)
@@ -76,7 +64,39 @@ public class KeyDataFacade {
     }
 
     // 시스템별 고유 키 생성
-    private String createNumber(KeyChannel keyChannel) {
+    public String createKey(KeyChannel keyChannel, int retry) {
+        String value = "";
+        try {
+            // 2) 키 타입에 따라 고유 키 생성
+            if (keyChannel.getType().isNumber()) {
+                value = this.createNumberKey(keyChannel);
+
+                // 최근 생성된 키 업데이트
+                keyChannel.setValue(Long.parseLong(value));
+            } else {
+                value = KeyUtils.generator();
+            }
+
+            KeyData keyData = keyDataService.create(keyChannel, value);
+            keyChannel.addKey(keyData);
+        } catch (ApiException e) {
+            if (e.getApiStatus().equals(ApiStatus.ALREADY_GENERATED_KEY)) {
+                if (retry > 0) {
+                    log.debug("재시도 - {}", retry);
+                    retry--;
+
+                    return this.createKey(keyChannel, retry);
+                } else {
+                    throw new ApiException(ApiStatus.ALREADY_GENERATED_KEY);
+                }
+            }
+        }
+
+        return value;
+    }
+
+    // 숫자형 키 생성
+    private String createNumberKey(KeyChannel keyChannel) {
         String value;
 
         if (keyChannel.getGenerator().equals("redis")) {
@@ -92,7 +112,6 @@ public class KeyDataFacade {
             }
             value = String.valueOf(_value);
         } else {
-            // TODO 추후 generator 별 정의 및 추상화 필요
             throw new ApiException(ApiStatus.INVALID_SYSTEM_GENERATOR);
         }
 

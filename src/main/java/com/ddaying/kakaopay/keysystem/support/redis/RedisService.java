@@ -40,7 +40,7 @@ public class RedisService {
 
     public Long increment(String key) {
         Long value = stringRedisTemplate.increment(key);
-        log.info("INCREMENT :: key = [{}], value = [{}]", key, value);
+        log.debug("INCREMENT :: key = [{}], value = [{}]", key, value);
         return value;
     }
 
