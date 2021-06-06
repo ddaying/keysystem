@@ -10,6 +10,10 @@ public class DateUtils {
     private static final String yyyyMMdd = "yyyy-MM-dd";
     private static final String yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss";
 
+    public static String now() {
+        return toYyyyMMddHHmmss(LocalDateTime.now());
+    }
+
     public static String yyyyMMdd(LocalDate localDate) {
         return localDate.format(DateTimeFormatter.ofPattern(yyyyMMdd));
     }

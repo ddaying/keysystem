@@ -1,5 +1,6 @@
 package com.ddaying.kakaopay.keysystem.config;
 
+import com.ddaying.kakaopay.keysystem.interceptor.MeasureInterceptor;
 import com.ddaying.kakaopay.keysystem.util.CustomLocalDateSerializer;
 import com.ddaying.kakaopay.keysystem.util.CustomLocalDateTimeSerializer;
 import com.google.gson.Gson;
@@ -11,6 +12,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDate;
@@ -28,6 +30,11 @@ public class WebConfig implements WebMvcConfigurer {
                         HttpMethod.POST.name(),
                         HttpMethod.PUT.name(),
                         HttpMethod.DELETE.name());
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new MeasureInterceptor());
     }
 
     @Override
