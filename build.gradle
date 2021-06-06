@@ -21,12 +21,34 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // mysql
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    // library
+    implementation "com.google.guava:guava:26.0-jre"
+    implementation "com.google.code.gson:gson:2.8.6"
+
+    // h2 - test
+    runtimeOnly 'com.h2database:h2'
+    testCompile 'com.h2database:h2'
+
+    // test
+    testImplementation group: 'junit', name: 'junit', version: '4.13.1'
+
+    // embedded-redis
+    implementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.1'
+
+    // metric
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 test {

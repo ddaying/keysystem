@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    initialization-mode: never
+  redis:
+    host: localhost
+    port: 6379
